@@ -1,128 +1,136 @@
-/**
+const axios = require('axios');
 
-//══════════════════════════════════════════════════════════════════════════════════════════════════════//
-//                                                                                                      //
-//                                ＷＨＡＴＳＡＰＰ ＢＯＴ－ＭＤ ＢＥＴＡ                                   //
-//                                                                                                      // 
-//                                         Ｖ：１．０．１                                                // 
-//                                                                                                      // 
-//            ███████╗██╗   ██╗██╗  ██╗ █████╗ ██╗██╗         ███╗   ███╗██████╗                        //
-//            ██╔════╝██║   ██║██║  ██║██╔══██╗██║██║         ████╗ ████║██╔══██╗                       //
-//            ███████╗██║   ██║███████║███████║██║██║         ██╔████╔██║██║  ██║                       //
-//            ╚════██║██║   ██║██╔══██║██╔══██║██║██║         ██║╚██╔╝██║██║  ██║                       //
-//            ███████║╚██████╔╝██║  ██║██║  ██║██║███████╗    ██║ ╚═╝ ██║██████╔╝                       //
-//            ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝    ╚═╝     ╚═╝╚═════╝                        //
-//                                                                                                      //
-//                                                                                                      //
-//                                                                                                      //
-//══════════════════════════════════════════════════════════════════════════════════════════════════════//
-
-CURRENTLY RUNNING ON BETA VERSION!!
-*
-   * @project_name : Suhail-Md
-   * @author : Suhail Tech Info
-   * @youtube : https://www.youtube.com/c/@SuhailTechInfo0
-   * @description : Suhail-Md ,A Multi-functional whatsapp user bot.
-   * @version 1.2.2
-*
-   * Licensed under the  GPL-3.0 License;
-* 
-   * Created By Suhail Tech Info.
-   * © 2023 Suhail-Md.
-* 
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   * SOFTWARE.
- **/
-
-
-/*
+let koyeb_api = process.env.KOYEB_API 
+let axiosConfig = {headers: {'Content-Type': 'application/json;charset=UTF-8', "Authorization": `Bearer ${koyeb_api}`}}
  
- const axios = require('axios');
-const { tlang,smd } = require('../lib')
-const { redeploy , getvar , delvar , getallvar , change_env , get_deployments} = require('../lib/koyeb')
-const Config = require('../config')
-
-if(Config.KOYEB_API && process.env.KOYEB_API){
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-smd(
-  {
-    pattern: "updatenow",
-    desc: "update bot with refreshed commit.",
-    filename: __filename,
-    category: "misc",
-  },
-  async (Suhail,msg,text,{isCreator}) => {
-       if(!isCreator) return msg.reply(tlang().owner);
-       let check = await get_deployments()
-       if(check==='true') return msg.reply('_Please wait..._\n_Currently 2 instances are running in Koyeb,wait to stop one of them._')
-       let data = await redeploy();
-       return msg.reply(data)
-  })
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-smd(
-  {
-    pattern: "koyebgetvar",
-    desc: "get desired var from koyeb.",
-    filename: __filename,
-    category: "misc",
-  },
-  async (Suhail,msg,text,{isCreator}) => {
-       if(!isCreator) return msg.reply(tlang().owner);
-       if(!text) return msg.reply('Please provide key.\n_Eg: .getvar PORT_')
-       let data = await getvar(text);
-       return msg.reply(data)
-  })
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-smd(
-  {
-    pattern: "getallvar",
-    desc: "get all vars from koyeb.",
-    filename: __filename,
-    category: "misc",
-  },
-  async (Suhail,msg,text,{isCreator}) => {
-       if(!isCreator) return msg.reply(tlang().owner);
-       let data = await getallvar();
-       return msg.reply(data)
-  })
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-smd(
-  {
-    pattern: "koyebsetvar",
-    desc: "set var in koyeb.",
-    filename: __filename,
-    category: "misc",
-  },
-  async (Suhail,msg,text,{isCreator}) => {
-       if(!isCreator) return msg.reply(tlang().owner);
-       if(!text.split(':')[1]) return msg.reply('*Wrong Format.*\nPlease provide key and value.\n_Eg: .setvar THEME:SECKTOR_')
-       let check = await get_deployments()
-       if(check==='true') return msg.reply('_Please wait..._\n_Currently 2 instances are running in Koyeb,wait to stop one of them._')
-       let data = await change_env(text)
-       return msg.reply(data)
-  })
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-smd(
-  {
-    pattern: "koyebdelvar",
-    desc: "delete var from koyeb.",
-    filename: __filename,
-    category: "misc",
-  },
-  async (Suhail,msg,text,{isCreator}) => {
-       if(!isCreator) return msg.reply(tlang().owner);
-       if(!text) return msg.reply('Please provide key.\n_Eg: .delvar PORT_')
-       let check = await get_deployments()
-       if(check==='true') return msg.reply('_Please wait..._\n_Currently 2 instances are running in Koyeb,wait to stop one of them._')
-       let data = await delvar(text)
-       return msg.reply(data)
-  })
-
+//-----------------------------------------------------
+async function get_deployments(){
+status = false
+let axiosConfig = {
+     headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "Authorization": `Bearer ${koyeb_api}`
+       }
 }
-*/
+ 
+await axios.get(`https://app.koyeb.com/v1/deployments`, axiosConfig).then(res => {
+let array = ['STOPPED','STOPPING','ERROR','ERRPRING']
+let a = []
+for (let i=0;i<res.data.deployments.length;i++){
+if(!array.includes(res.data.deployments[i].status)){
+  a.push(res.data.deployments[i].status)
+}}
+if(a.length>1) status = 'true'
+})
+return status
+} 
+//-----------------------------------------------------
+function checkArray(array,key){
+  var status = false
+  for(var i=0; i<array.length; i++){
+    if(array[i].key == key){
+      status = true;
+      break;
+    }
+  }
+  return status;
+} 
+ 
+//-----------------------------------------------------
+async function delvar(a){
+var status = false
+let { data } = await axios.get(`https://app.koyeb.com/v1/services`,axiosConfig)
+ let ser = data.services[0].id
+let b = await axios.get(`https://app.koyeb.com/v1/deployments/${data.services[0].latest_deployment_id}`,axiosConfig)
+let aa = checkArray(b.data.deployment.definition.env,a);
+if(aa!==true) return '_No such env in koyeb._'
+let vals = []
+ for(var i=0;i<b.data.deployment.definition.env.length;i++){
+   if(b.data.deployment.definition.env[i].key===a) continue
+   vals.push(b.data.deployment.definition.env[i]);
+}
+let body = {"definition": {"name": b.data.deployment.definition.name,"routes": b.data.deployment.definition.routes,"ports":b.data.deployment.definition.ports,"env":vals,"regions": b.data.deployment.definition.regions,"scalings":b.data.deployment.definition.scalings,"instance_types":b.data.deployment.definition.instance_types,"health_checks": b.data.deployment.definition.health_checks,"docker":  b.data.deployment.definition.docker}}
+ await axios.patch(`https://app.koyeb.com/v1/services/${ser}`, body, axiosConfig).then(res => {
+if(res.status===200){ status = `_Successfully deleted ${a} var from koyeb._`} else {status = '_Please put Koyeb api key in var KOYEB_API._\nEg: KOYEB_API:api key'}
+})
+return status
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+async function change_env(a){
+var status = '_Please put Koyeb api key in var KOYEB_API._\nEg: KOYEB_API:api key'
+let { data } = await axios.get(`https://app.koyeb.com/v1/services`,axiosConfig)
+ let ser = data.services[0].id
+let b = await axios.get(`https://app.koyeb.com/v1/deployments/${data.services[0].latest_deployment_id}`,axiosConfig)
+let bb = a.split(':')
+let vals = []
+ for(var i=0;i<b.data.deployment.definition.env.length;i++){
+if(b.data.deployment.definition.env[i].key===bb[0]){
+vals.push({"scopes":["region:fra"],"key":`${bb[0]}`,"value":`${bb[1]}`})
+} else {
+vals.push(b.data.deployment.definition.env[i]);
+}
+}
+let aa = checkArray(vals,bb[0])
+if(!aa===true){
+vals.push({"scopes":["region:fra"],"key":`${bb[0]}`,"value":`${bb[1]}`})
+}
+let body = {
+ "definition": {
+    "name": b.data.deployment.definition.name,
+    "routes": b.data.deployment.definition.routes,
+     "ports":b.data.deployment.definition.ports,
+    "env":vals,
+    "regions": b.data.deployment.definition.regions,
+    "scalings":b.data.deployment.definition.scalings,
+    "instance_types":b.data.deployment.definition.instance_types,
+    "health_checks": b.data.deployment.definition.health_checks,
+    "docker":  b.data.deployment.definition.docker
+  }
+}
+ await axios.patch(`https://app.koyeb.com/v1/services/${ser}`, body, axiosConfig).then(res => {
+            if(res.status===200){status = `Successfuly changed var _${bb[0]}:${bb[1]} ._` } else {status = '_Please put Koyeb api key in var KOYEB_API._\nEg: KOYEB_API:api key'}
+          })
+ return status
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+async function getallvar(){
+let { data } = await axios.get(`https://app.koyeb.com/v1/services`,axiosConfig)
+let b = await axios.get(`https://app.koyeb.com/v1/deployments/${data.services[0].latest_deployment_id}`,axiosConfig)
+let values = []
+for(var i=0;i<b.data.deployment.definition.env.length;i++){
+if(!b.data.deployment.definition.env[i].key) continue
+values.push('*'+b.data.deployment.definition.env[i].key+'* : _'+b.data.deployment.definition.env[i].value+'_')
+}
+return (values.join('\n'))
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+async function getvar(key){
+let { data } = await axios.get(`https://app.koyeb.com/v1/services`,axiosConfig)
+let b = await axios.get(`https://app.koyeb.com/v1/deployments/${data.services[0].latest_deployment_id}`,axiosConfig)
+for(var i=0;i<b.data.deployment.definition.env.length;i++){
+if(!b.data.deployment.definition.env[i].key) continue
+   if(b.data.deployment.definition.env[i].key===key){return (b.data.deployment.definition.env[i].key+':'+b.data.deployment.definition.env[i].value)}
+}
+}
+ 
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+async function redeploy(){
+var k = false
+var postData = {
+  "deployment_group": "prod",
+  "sha": ""
+};
+let { data } = await axios.get(`https://app.koyeb.com/v1/services`,axiosConfig)
+let id = (data.services[0].id)
+try{
+let ab = await axios.post(`https://app.koyeb.com/v1/services/${id}/redeploy`, postData, axiosConfig)
+k = '_update started._'
+} catch (e) {
+  k = '*Got an error in redeploying.*\n*Please put koyeb api key in var KOYEB_API.*\n_Eg: KOYEB_API:api key from https://app.koyeb.com/account/api ._'
+}
+return k
+}
+module.exports = { redeploy,getvar,delvar,getallvar,change_env,get_deployments}
+
